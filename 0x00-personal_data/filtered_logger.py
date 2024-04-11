@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """A personal Data module"""
-
+import os
+import mysql.connector
 import re
 from typing import List
 import logging
@@ -51,3 +52,14 @@ def get_logger() -> logging.Logger:
     strem_handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(strem_handler)
     return logger
+
+
+def get_db():
+    """Connect the Database using the environment vairable"""
+    connector = mysql.connector.connect(
+        user=os.getenv("PERSONAL_DATA_DB_USERNAME", 'root'),
+        password=os.getenv("PERSONAL_DATA_DB_PASSWORD", ""),
+        host=os.getenv("PERSONAL_DATA_DB_HOST", "localhost"),
+        database=os.getenv("PERSONAL_DATA_DB_NAME")
+    )
+    return connector
