@@ -44,7 +44,7 @@ def get_logger() -> logging.Logger:
     # logger.propagate = False
     logger.propagate = False
     # setting a level
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     # Create a StreamHandler
     strem_handler = logging.StreamHandler()
 
