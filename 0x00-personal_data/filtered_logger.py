@@ -50,3 +50,4 @@ def get_logger() -> logging.Logger:
 
     strem_handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(strem_handler)
+    return logger
