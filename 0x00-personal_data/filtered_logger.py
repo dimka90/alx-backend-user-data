@@ -41,6 +41,8 @@ def filter_datum(fields: List[str], redaction: str,
 def get_logger() -> logging.Logger:
     """A loger function"""
     logger = logging.getLogger("user_data")
+    # logger.propagate = False
+    logger.propagate = False
     # setting a level
     logger.setLevel(logging.DEBUG)
     # Create a StreamHandler
