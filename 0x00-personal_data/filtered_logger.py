@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """A personal Data module"""
-import os
-import mysql.connector
+
 import re
 from typing import List
+import os
+import mysql.connector
 import logging
 
 PII_FIELDS = ("name", "email", "password", "ssn", "phone")
@@ -53,7 +54,8 @@ def get_logger() -> logging.Logger:
     logger.addHandler(strem_handler)
     return logger
 
-def get_db() -> mysql.connector.connection.MYSQLConnection :
+
+def get_db() -> mysql.connector.connection.MYSQLConnection:
     """Connect the Database using the environment vairable"""
     connector = mysql.connector.connect(
         user=os.getenv("PERSONAL_DATA_DB_USERNAME", 'root'),
