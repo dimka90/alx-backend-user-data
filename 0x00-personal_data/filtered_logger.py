@@ -13,16 +13,19 @@ class RedactingFormatter(logging.Formatter):
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
-    def __init__(self, fields: List[str]):
 
+    def __init__(self, fields: List[str]):
+        """Innialise method """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         logging.basicConfig(format=RedactingFormatter.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
         """"""
-        return filter_datum(self.fields,RedactingFormatter.REDACTION,
-                             record.msg, RedactingFormatter.SEPARATOR)
+        return filter_datum(self.fields, RedactingFormatter.REDACTION,
+                            record.msg, RedactingFormatter.SEPARATOR)
+
+
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """A function that replace a message with some random values"""
