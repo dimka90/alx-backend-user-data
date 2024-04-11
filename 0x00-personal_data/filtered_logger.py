@@ -17,13 +17,13 @@ class RedactingFormatter(logging.Formatter):
     def __init__(self, fields: List[str]):
         """Innialise method """
         super(RedactingFormatter, self).__init__(self.FORMAT)
-        logging.basicConfig(format=RedactingFormatter.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        """"""
+        """format the """
         return filter_datum(self.fields, RedactingFormatter.REDACTION,
-                            record.msg, RedactingFormatter.SEPARATOR)
+                            super().format(record),
+                            RedactingFormatter.SEPARATOR)
 
 
 def filter_datum(fields: List[str], redaction: str,
