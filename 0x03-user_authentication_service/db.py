@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """DB module
 """
 from sqlalchemy import create_engine
@@ -34,8 +34,12 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> User:
         """ Add user to database"""
         user_1 = User(email=email, hashed_password=hashed_password)
-        self._session.add(user_1)
-        # store result
-        self._session.commit()
-
+        try:
+            self._session.add(user_1)
+            # store result
+            self._session.commit()
+        except Exception as e:
+            print("An Exception occur {e}").format(e)
+            self._session.rollback()
+            raise
         return user_1
