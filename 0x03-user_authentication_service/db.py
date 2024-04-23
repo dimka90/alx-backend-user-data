@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.orm.exc import NoResultFound, InvalidRequestError
+from sqlalchemy.exc import NoResultFound, InvalidRequestError
 
 from user import Base
 from user import User
@@ -19,7 +19,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db",)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -46,21 +46,20 @@ class DB:
             raise
         return user_1
 
+    def find_user_by(self, **kwargs: Dict[str, str]) -> User:
+        """
+        Search for a user in a database
+        Args:
+            Dic: Key value pair of name and email
+        Return:
+            User: User in the database
+        """
 
-def find_user_by(self, **kwargs: Dic[str, str]) -> User:
-    """
-    Search for a user in a database
-    Args:
-        Dic: Key value pair of name and email
-    Return:
-        User: User in the database
-    """
+        try:
+            user = self.__session.query(User).filter_by(**kwargs).one()
 
-    try:
-        user = self.__session.query(User).filter_by(**kwargs).one()
-
-    except NoResultFound:
-        raise NoResultFound()
-    except InvalidRequestError:
-        raise InvalidRequestError
-    return user
+        except NoResultFound:
+            raise NoResultFound
+        except InvalidRequestError:
+            raise InvalidRequestError
+        return user
