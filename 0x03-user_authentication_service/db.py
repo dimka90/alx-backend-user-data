@@ -47,39 +47,20 @@ class DB:
             raise
         return user_1
 
-    # def find_user_by(self, **kwargs: Dict[str, str]) -> User:
-    #     """
-    #     Search for a user in a database
-    #     Args:
-    #         Dic: Key value pair of name and email
-    #     Return:
-    #         User: User in the database
-    #     """
-
-    #     try:
-    #         user = self._session.query(User).filter_by(**kwargs).one()
-
-    #     except NoResultFound:
-    #         raise NoResultFound
-    #     except InvalidRequestError:
-    #         raise InvalidRequestError
-    #     return user
     def find_user_by(self, **kwargs: Dict[str, str]) -> User:
-        """Find a user by specified attributes.
-
-        Raises:
-            error: NoResultFound: When no results are found.
-            error: InvalidRequestError: When invalid query arguments are passed
-
-        Returns:
-            User: First row found in the `users` table.
         """
-        session = self._session
+        Search for a user in a database
+        Args:
+            Dic: Key value pair of name and email
+        Return:
+            User: User in the database
+        """
+
         try:
-            user = session.query(User).filter_by(**kwargs).one()
+            user = self._session.query(User).filter_by(**kwargs).one()
+
         except NoResultFound:
-            raise NoResultFound()
+            raise NoResultFound
         except InvalidRequestError:
-            raise InvalidRequestError()
-        # print("Type of user: {}".format(type(user)))
+            raise InvalidRequestError
         return user
