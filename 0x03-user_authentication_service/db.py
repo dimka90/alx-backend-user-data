@@ -67,11 +67,18 @@ class DB:
 
     def update_user(self, user_id: int, **kwargs: Dict[str, str]) -> None:
 
-        user = self.find_user_by(id=user_id)
+        # user = self.find_user_by(id=user_id)
 
-        if user:
-            for key, values in kwargs.items():
-                if not hasattr(User, key):
-                    raise ValueError
-            user.hashed_password = kwargs['hashed_password']
-        self._session.commit()
+        # if user:
+        #     for key, values in kwargs.items():
+        #         if not hasattr(User, key):
+        #             raise ValueError
+        #     user.hashed_password = kwargs['hashed_password']
+        # self._session.commit()
+        user = self.find_user_by(id=user_id)
+        session = self._session
+        for attr, val in kwargs.items():
+            if not hasattr(User, attr):
+                raise ValueError
+            setattr(user, attr, val)
+        session.commit()
