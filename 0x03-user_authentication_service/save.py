@@ -27,3 +27,12 @@ class Student:
 Dimka = Student("dimka", 90)
 
 Dimka.get_student(name = "dimka", score = 90)
+
+for attr, values in kwargs.items():
+            if not hasattr(User, attr):
+                raise InvalidRequestError()
+
+        user = self._session.query(User).filter_by(**kwargs).one()
+        if not user:
+            raise InvalidRequestError
+        return user

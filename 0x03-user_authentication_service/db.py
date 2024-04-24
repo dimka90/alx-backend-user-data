@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, tuple_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -56,11 +56,17 @@ class DB:
             User: User in the database
         """
         # filtering the dictionary into it attributes and values
-        for attr, values in kwargs.items():
+
+        attrs, vals = [], []
+        for attr, val in kwargs.items():
             if not hasattr(User, attr):
                 raise InvalidRequestError()
+            attrs.append(getattr(User, attr))
+            vals.append(val)
 
-        user = self._session.query(User).filter_by(**kwargs).one()
+        session = self._session
+        query = session.query(User)
+        user = query.filter(tuple_(*attrs).in_([tuple(vals)])).first()
         if not user:
-            raise InvalidRequestError
+            raise NoResultFound()
         return user
