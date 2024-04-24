@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine, tuple_
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -56,17 +56,22 @@ class DB:
             User: User in the database
         """
         # filtering the dictionary into it attributes and values
-
-        attrs, vals = [], []
-        for attr, val in kwargs.items():
+        for attr, values in kwargs.items():
             if not hasattr(User, attr):
                 raise InvalidRequestError()
-            attrs.append(getattr(User, attr))
-            vals.append(val)
 
-        session = self._session
-        query = session.query(User)
-        user = query.filter(tuple_(*attrs).in_([tuple(vals)])).first()
+        user = self._session.query(User).filter_by(**kwargs).one()
         if not user:
-            raise NoResultFound()
+            raise InvalidRequestError()
         return user
+
+    def update_user(self, user_id: int, **kwargs: Dict[str, str]) -> None:
+
+        user = self.find_user_by(id=user_id)
+
+        if user:
+            for key, values in kwargs.items():
+                if not hasattr(User, key):
+                    raise ValueError
+            user.hashed_password = kwargs['hashed_password']
+        self._session.commit()
