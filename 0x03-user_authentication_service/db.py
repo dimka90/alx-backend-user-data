@@ -55,12 +55,12 @@ class DB:
         Return:
             User: User in the database
         """
+        # filtering the dictionary into it attributes and values
+        for attr, values in kwargs.items():
+            if not hasattr(User, attr):
+                raise InvalidRequestError()
 
-        try:
-            user = self._session.query(User).filter_by(**kwargs).one()
-
-        except NoResultFound:
-            raise NoResultFound
-        except InvalidRequestError:
+        user = self._session.query(User).filter_by(**kwargs).one()
+        if not user:
             raise InvalidRequestError
         return user
