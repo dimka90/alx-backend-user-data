@@ -36,3 +36,14 @@ for attr, values in kwargs.items():
         if not user:
             raise InvalidRequestError
         return user
+
+        if not kwargs:
+            raise InvalidRequestError
+        for attr, values in kwargs.items():
+            if not hasattr(User, attr):
+                raise InvalidRequestError
+
+        user = self._session.query(User).filter_by(**kwargs).one()
+        if not user:
+            raise InvalidRequestError
+        return user
