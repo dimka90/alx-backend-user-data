@@ -56,13 +56,15 @@ class DB:
             User: User in the database
         """
         # filtering the dictionary into it attributes and values
+        if not kwargs:
+            raise InvalidRequestError
         for attr, values in kwargs.items():
             if not hasattr(User, attr):
-                raise InvalidRequestError()
+                raise InvalidRequestError
 
         user = self._session.query(User).filter_by(**kwargs).one()
         if not user:
-            raise InvalidRequestError()
+            raise InvalidRequestError
         return user
 
     def update_user(self, user_id: int, **kwargs: Dict[str, str]) -> None:
