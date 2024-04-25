@@ -47,7 +47,7 @@ class DB:
             raise
         return user_1
 
-    def find_user_by(self, **kwargs: Dict[str, str]) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """
         Search for a user in a database
         Args:
