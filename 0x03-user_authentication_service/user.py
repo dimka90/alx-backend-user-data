@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ An Sqlalchemy model"""
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 
 Base = declarative_base()
