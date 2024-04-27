@@ -34,6 +34,11 @@ class Auth:
 
     def register_user(self, email: str, password: str) -> User:
         """
+        Register users
+        Argument(s):
+            password(str) -> Password to hash
+        Return:
+            password(bytes): Hashed password in bytes
         """
         try:
             is_register = self._db.find_user_by(email=email)
