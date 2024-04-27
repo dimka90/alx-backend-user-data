@@ -68,3 +68,20 @@ class DB:
         if not requested_user:
             raise NoResultFound
         return requested_user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        Argument:
+                kwargs(dict): a key, value pair for email and
+                hashed_password
+        Return:
+                User(instance)
+        """
+        user = self.find_user_by(id=user_id)
+
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                setattr(user, key, value)
+            else:
+                raise ValueError
+        self._session.commit()
